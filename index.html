@@ -1,12 +1,12 @@
 <!DOCTYPE html> 
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🍓</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" href="PSX_20240505_135018.jpg" type="image/jpg">
+  
   <style>
     body, html, #app {
       margin: 0;
@@ -15,11 +15,13 @@
       overflow: hidden;
       touch-action: pan-up;
     }
+
     #app {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
       text-align: center;
     }
+
     #app h1 {
       --fontSize: 40px;
       --lineHeight: 80px;
@@ -38,23 +40,27 @@
       pointer-events: none;
       filter: blur(2px);
     }
+
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     #app a {
       margin-top: 10px;
       display: inline-block;
       text-decoration: none;
       color: #fff;
     }
+
     #app canvas {
       display: block;
       position: fixed;
       z-index: -1;
       top: 0;
     }
+
     #compliment {
       position: absolute;
       font-size: 24px;
@@ -65,7 +71,6 @@
     }
   </style>
 </head>
-
 <body>
   <div id="app">
     <div id="hero">
@@ -100,13 +105,13 @@
     ];
 
     const colors = [
-      '#ff99cc', '#6666ff', '#99ffcc', '#ffcc99', '#cc99ff', 
+      '#ff99cc', '#6666ff', '#99ffcc', '#ffcc99', '#cc99ff',
       '#99ccff', '#ff9966', '#66ff99', '#ff6699', '#9966ff'
     ];
 
     const complimentElement = document.getElementById('compliment');
     let index = 0; // Índice do elogio atual
-    let intervalId;
+    let intervalId = null; // ID do intervalo para verificar se já está ativo
 
     function showCompliment() {
       const randomCompliment = compliments[index];
@@ -115,28 +120,28 @@
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       complimentElement.textContent = randomCompliment;
-      complimentElement.style.opacity = 0.8;
+      complimentElement.style.opacity = 0.8; 
       complimentElement.style.color = randomColor;
       complimentElement.style.left = `${x}px`;
       complimentElement.style.top = `${y}px`;
 
-      // Iniciar o desaparecimento após 2 segundos
       setTimeout(() => {
         complimentElement.style.opacity = 0;
-      }, 2000);
+      }, 2000); 
 
-      // Avançar para o próximo elogio
       index = (index + 1) % compliments.length;
     }
 
     function startCompliments() {
-      showCompliment();  // Mostrar um elogio ao clicar
-      intervalId = setInterval(showCompliment, 700); // Continuar mostrando elogios enquanto pressionado
+      if (!intervalId) { // Iniciar o intervalo apenas se não houver um ativo
+        intervalId = setInterval(showCompliment, 900);
+      }
     }
 
     function stopCompliments() {
       clearInterval(intervalId);
-      complimentElement.style.opacity = 0; // Esconder o elogio ao soltar
+      intervalId = null; // Resetar o ID do intervalo para permitir reinício
+      complimentElement.style.opacity = 0;
     }
 
     document.addEventListener('mousedown', startCompliments);
