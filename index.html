@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GITHUB</title>
+  <title>🍓</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body, html, #app {
@@ -36,7 +36,7 @@
       animation: gradientAnimation 3s ease infinite;
       user-select: none;
       pointer-events: none;
-      filter: blur(2px); /* Aumenta o desfoque do nome central */
+      filter: blur(2px);
     }
 
     @keyframes gradientAnimation {
@@ -63,20 +63,9 @@
       position: absolute;
       font-size: 24px;
       font-weight: bold;
-      opacity: 0.7; /* Aumenta a transparência dos elogios para 0.7 */
-      transition: opacity 0.5s ease, transform 0.5s ease; /* Adiciona transição para o efeito de desaparecimento */
+      opacity: 0.8; /* Aumentando a opacidade */
+      transition: opacity 2s ease, transform 0.5s ease;
       pointer-events: none;
-      white-space: nowrap; /* Impede que os elogios quebrem a linha */
-    }
-
-    /* Responsividade */
-    @media (max-width: 768px) {
-      #app h1 {
-        font-size: 30px; /* Tamanho de fonte menor em telas pequenas */
-      }
-      #compliment {
-        font-size: 20px; /* Tamanho de fonte menor para elogios em telas pequenas */
-      }
     }
   </style>
 </head>
@@ -93,11 +82,11 @@
     // Ativar o cursor neon
     neonCursor({
       el: document.getElementById('app'),
-      shaderPoints: 10, // Reduz o número de pontos do shader para fluidez
-      curvePoints: 50,   // Reduz o número de pontos de curva para um efeito mais curto
-      curveLerp: 0.7,   // Aumenta a suavidade da curva
+      shaderPoints: 10,
+      curvePoints: 50,
+      curveLerp: 0.7,
       radius1: 5,
-      radius2: 20,      // Ajusta o raio para um cursor mais curto
+      radius2: 20,
       velocityTreshold: 5,
       sleepRadiusX: 100,
       sleepRadiusY: 100,
@@ -105,7 +94,6 @@
       sleepTimeCoefY: 0.0025
     });
 
-    // Array de elogios para exibir
     const compliments = [
       "Incrível!", 
       "Fantástico!", 
@@ -120,83 +108,61 @@
       "Deslumbrante!", 
       "Excepcional!", 
       "Magnífico!", 
-      "Deslumbrante!", 
       "Admirável!", 
       "Estonteante!"
     ];
 
-    // Array de cores para os elogios
     const colors = [
-      '#ff00cc',
-      '#3333ff',
-      '#00ffcc',
-      '#ffcc00',
-      '#cc00ff',
-      '#00ccff',
-      '#ff6600',
-      '#66ff00',
-      '#ff0066',
-      '#6600ff'
+      '#ff99cc',
+      '#6666ff',
+      '#99ffcc',
+      '#ffcc99',
+      '#cc99ff',
+      '#99ccff',
+      '#ff9966',
+      '#66ff99',
+      '#ff6699',
+      '#9966ff'
     ];
 
     const complimentElement = document.getElementById('compliment');
-    let complimentInterval;
-    let usedCompliments = []; // Armazenar os elogios já utilizados
+    let index = 0; // Índice do elogio atual
+    let intervalId;
 
-    // Função para exibir um elogio aleatório em uma nova posição
-    function showRandomCompliment() {
-      // Se todos os elogios foram usados, reinicia o array
-      if (usedCompliments.length === compliments.length) {
-        usedCompliments = [];
-      }
-
-      let randomCompliment;
-      do {
-        randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
-      } while (usedCompliments.includes(randomCompliment));
-
-      usedCompliments.push(randomCompliment); // Adiciona o elogio utilizado ao array
-
-      const x = Math.random() * (window.innerWidth - 100); // posição aleatória horizontal
-      const y = Math.random() * (window.innerHeight - 50);  // posição aleatória vertical
-
-      // Escolher uma cor aleatória para o elogio
+    function showCompliment() {
+      const randomCompliment = compliments[index];
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       complimentElement.textContent = randomCompliment;
-      complimentElement.style.opacity = 1;
-      complimentElement.style.color = randomColor; // Usar a cor aleatória
+      complimentElement.style.opacity = 0.8; // Aumentando a opacidade
+      complimentElement.style.color = randomColor;
       complimentElement.style.left = `${x}px`;
       complimentElement.style.top = `${y}px`;
 
-      // Definir um tempo para desaparecer lentamente
+      // Iniciar o desaparecimento após 2 segundos
       setTimeout(() => {
-        complimentElement.style.opacity = 0; // Começar a desaparecer
-      }, 2000); // Espera 2 segundos antes de iniciar o desaparecimento
+        complimentElement.style.opacity = 0;
+      }, 2000); 
+
+      // Avançar para o próximo elogio
+      index = (index + 1) % compliments.length; // Recomeçar do primeiro elogio após o último
     }
 
-    // Função para iniciar o loop dos elogios enquanto o botão está pressionado
-    function startComplimentLoop() {
-      showRandomCompliment();
-      complimentInterval = setInterval(showRandomCompliment, 3000); // Alterar elogio a cada 3000ms
+    function startCompliments() {
+      intervalId = setInterval(showCompliment, 535); // Alterar elogio a cada 535ms
     }
 
-    // Função para parar o loop dos elogios quando o botão é solto
-    function stopComplimentLoop() {
-      clearInterval(complimentInterval);
-      complimentElement.style.opacity = 0; // Oculta o elogio após soltar o botão
+    function stopCompliments() {
+      clearInterval(intervalId);
+      complimentElement.style.opacity = 0; // Esconder o elogio ao soltar
     }
 
-    // Eventos de mouse para iniciar e parar o loop dos elogios
-    document.addEventListener('mousedown', startComplimentLoop);
-    document.addEventListener('mouseup', stopComplimentLoop);
-
-    // Eventos de toque para dispositivos móveis
-    document.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      startComplimentLoop();
-    });
-    document.addEventListener('touchend', stopComplimentLoop);
+    document.addEventListener('mousedown', startCompliments);
+    document.addEventListener('mouseup', stopCompliments);
+    document.addEventListener('touchstart', startCompliments);
+    document.addEventListener('touchend', stopCompliments);
   </script>
 </body>
 </html>
