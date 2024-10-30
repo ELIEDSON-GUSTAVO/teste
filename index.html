@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🍓</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" href="PSX_20240505_135018.jpg" type="image/jpg">
-  
   <style>
     body, html, #app {
       margin: 0;
@@ -15,13 +15,11 @@
       overflow: hidden;
       touch-action: pan-up;
     }
-
     #app {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
       text-align: center;
     }
-
     #app h1 {
       --fontSize: 40px;
       --lineHeight: 80px;
@@ -40,37 +38,34 @@
       pointer-events: none;
       filter: blur(2px);
     }
-
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     #app a {
       margin-top: 10px;
       display: inline-block;
       text-decoration: none;
       color: #fff;
     }
-
     #app canvas {
       display: block;
       position: fixed;
       z-index: -1;
       top: 0;
     }
-
     #compliment {
       position: absolute;
       font-size: 24px;
       font-weight: bold;
-      opacity: 0.8; /* Aumentando a opacidade */
+      opacity: 0.8;
       transition: opacity 2s ease, transform 0.5s ease;
       pointer-events: none;
     }
   </style>
 </head>
+
 <body>
   <div id="app">
     <div id="hero">
@@ -78,6 +73,7 @@
     </div>
     <div id="compliment"></div>
   </div>
+
   <script type="module">
     import { neonCursor } from 'https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js';
 
@@ -97,34 +93,15 @@
     });
 
     const compliments = [
-      "Incrível!", 
-      "Fantástico!", 
-      "Brilhante!", 
-      "Espetacular!", 
-      "Genial!", 
-      "Maravilhoso!", 
-      "Fabuloso!", 
-      "Extraordinário!", 
-      "Impressionante!", 
-      "Sensacional!", 
-      "Deslumbrante!", 
-      "Excepcional!", 
-      "Magnífico!", 
-      "Admirável!", 
-      "Estonteante!"
+      "Incrível!", "Fantástico!", "Brilhante!", "Espetacular!", "Genial!", 
+      "Maravilhoso!", "Fabuloso!", "Extraordinário!", "Impressionante!", 
+      "Sensacional!", "Deslumbrante!", "Excepcional!", "Magnífico!", 
+      "Admirável!", "Estonteante!"
     ];
 
     const colors = [
-      '#ff99cc',
-      '#6666ff',
-      '#99ffcc',
-      '#ffcc99',
-      '#cc99ff',
-      '#99ccff',
-      '#ff9966',
-      '#66ff99',
-      '#ff6699',
-      '#9966ff'
+      '#ff99cc', '#6666ff', '#99ffcc', '#ffcc99', '#cc99ff', 
+      '#99ccff', '#ff9966', '#66ff99', '#ff6699', '#9966ff'
     ];
 
     const complimentElement = document.getElementById('compliment');
@@ -138,7 +115,7 @@
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       complimentElement.textContent = randomCompliment;
-      complimentElement.style.opacity = 0.8; // Aumentando a opacidade
+      complimentElement.style.opacity = 0.8;
       complimentElement.style.color = randomColor;
       complimentElement.style.left = `${x}px`;
       complimentElement.style.top = `${y}px`;
@@ -146,14 +123,15 @@
       // Iniciar o desaparecimento após 2 segundos
       setTimeout(() => {
         complimentElement.style.opacity = 0;
-      }, 2000); 
+      }, 2000);
 
       // Avançar para o próximo elogio
-      index = (index + 1) % compliments.length; // Recomeçar do primeiro elogio após o último
+      index = (index + 1) % compliments.length;
     }
 
     function startCompliments() {
-      intervalId = setInterval(showCompliment,700); // Alterar elogio a cada 535ms
+      showCompliment();  // Mostrar um elogio ao clicar
+      intervalId = setInterval(showCompliment, 700); // Continuar mostrando elogios enquanto pressionado
     }
 
     function stopCompliments() {
