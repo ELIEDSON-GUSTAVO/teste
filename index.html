@@ -1,25 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gabriel Wender</title>
+  <title>GITHUB</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body, html, #app {
       margin: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
+      touch-action: pan-up;
     }
 
     #app {
-      overflow: hidden;
-      touch-action: pan-up;
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
       text-align: center;
-      text-shadow: 0 0 5px #ffffff, 0 0 20px #000, 0 0 30px #000;
     }
 
     #app h1 {
@@ -31,6 +29,20 @@
       margin: calc(50vh - var(--lineHeight)) auto 0;
       font-size: var(--fontSize);
       text-transform: uppercase;
+      background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffcc, #ff00cc);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientAnimation 3s ease infinite;
+      user-select: none;
+      pointer-events: none;
+      filter: blur(2px); /* Aumenta o desfoque do nome central */
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     #app a {
@@ -46,30 +58,145 @@
       z-index: -1;
       top: 0;
     }
+
+    #compliment {
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+      opacity: 0.7; /* Aumenta a transparência dos elogios para 0.7 */
+      transition: opacity 0.5s ease, transform 0.5s ease; /* Adiciona transição para o efeito de desaparecimento */
+      pointer-events: none;
+      white-space: nowrap; /* Impede que os elogios quebrem a linha */
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      #app h1 {
+        font-size: 30px; /* Tamanho de fonte menor em telas pequenas */
+      }
+      #compliment {
+        font-size: 20px; /* Tamanho de fonte menor para elogios em telas pequenas */
+      }
+    }
   </style>
 </head>
 <body>
   <div id="app">
     <div id="hero">
-      <h1>Gabriel é um gordinho<br/>programador</h1>
+      <h1>Adryan<br/></h1>
     </div>
+    <div id="compliment"></div>
   </div>
   <script type="module">
     import { neonCursor } from 'https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js';
 
-neonCursor({
-    el: document.getElementById('app'),
-    shaderPoints: 16,
-    curvePoints: 80,
-    curveLerp: 0.5,
-    radius1: 5,
-    radius2: 30,
-    velocityTreshold: 10,
-    sleepRadiusX: 100,
-    sleepRadiusY: 100,
-    sleepTimeCoefX: 0.0025,
-    sleepTimeCoefY: 0.0025
-});
+    // Ativar o cursor neon
+    neonCursor({
+      el: document.getElementById('app'),
+      shaderPoints: 10, // Reduz o número de pontos do shader para fluidez
+      curvePoints: 50,   // Reduz o número de pontos de curva para um efeito mais curto
+      curveLerp: 0.7,   // Aumenta a suavidade da curva
+      radius1: 5,
+      radius2: 20,      // Ajusta o raio para um cursor mais curto
+      velocityTreshold: 5,
+      sleepRadiusX: 100,
+      sleepRadiusY: 100,
+      sleepTimeCoefX: 0.0025,
+      sleepTimeCoefY: 0.0025
+    });
+
+    // Array de elogios para exibir
+    const compliments = [
+      "Incrível!", 
+      "Fantástico!", 
+      "Brilhante!", 
+      "Espetacular!", 
+      "Genial!", 
+      "Maravilhoso!", 
+      "Fabuloso!", 
+      "Extraordinário!", 
+      "Impressionante!", 
+      "Sensacional!", 
+      "Deslumbrante!", 
+      "Excepcional!", 
+      "Magnífico!", 
+      "Deslumbrante!", 
+      "Admirável!", 
+      "Estonteante!"
+    ];
+
+    // Array de cores para os elogios
+    const colors = [
+      '#ff00cc',
+      '#3333ff',
+      '#00ffcc',
+      '#ffcc00',
+      '#cc00ff',
+      '#00ccff',
+      '#ff6600',
+      '#66ff00',
+      '#ff0066',
+      '#6600ff'
+    ];
+
+    const complimentElement = document.getElementById('compliment');
+    let complimentInterval;
+    let usedCompliments = []; // Armazenar os elogios já utilizados
+
+    // Função para exibir um elogio aleatório em uma nova posição
+    function showRandomCompliment() {
+      // Se todos os elogios foram usados, reinicia o array
+      if (usedCompliments.length === compliments.length) {
+        usedCompliments = [];
+      }
+
+      let randomCompliment;
+      do {
+        randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+      } while (usedCompliments.includes(randomCompliment));
+
+      usedCompliments.push(randomCompliment); // Adiciona o elogio utilizado ao array
+
+      const x = Math.random() * (window.innerWidth - 100); // posição aleatória horizontal
+      const y = Math.random() * (window.innerHeight - 50);  // posição aleatória vertical
+
+      // Escolher uma cor aleatória para o elogio
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+      complimentElement.textContent = randomCompliment;
+      complimentElement.style.opacity = 1;
+      complimentElement.style.color = randomColor; // Usar a cor aleatória
+      complimentElement.style.left = `${x}px`;
+      complimentElement.style.top = `${y}px`;
+
+      // Definir um tempo para desaparecer lentamente
+      setTimeout(() => {
+        complimentElement.style.opacity = 0; // Começar a desaparecer
+      }, 2000); // Espera 2 segundos antes de iniciar o desaparecimento
+    }
+
+    // Função para iniciar o loop dos elogios enquanto o botão está pressionado
+    function startComplimentLoop() {
+      showRandomCompliment();
+      complimentInterval = setInterval(showRandomCompliment, 3000); // Alterar elogio a cada 3000ms
+    }
+
+    // Função para parar o loop dos elogios quando o botão é solto
+    function stopComplimentLoop() {
+      clearInterval(complimentInterval);
+      complimentElement.style.opacity = 0; // Oculta o elogio após soltar o botão
+    }
+
+    // Eventos de mouse para iniciar e parar o loop dos elogios
+    document.addEventListener('mousedown', startComplimentLoop);
+    document.addEventListener('mouseup', stopComplimentLoop);
+
+    // Eventos de toque para dispositivos móveis
+    document.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      startComplimentLoop();
+    });
+    document.addEventListener('touchend', stopComplimentLoop);
   </script>
 </body>
 </html>
