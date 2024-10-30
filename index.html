@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ADRYAN</title>
+  <title>🍓</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" href="PSX_20240505_135018.jpg" type="image/jpg">
   
@@ -61,12 +61,12 @@
       top: 0;
     }
 
-    #compliment {
+    .compliment {
       position: absolute;
       font-size: 24px;
       font-weight: bold;
-      opacity: 0;
-      transition: opacity 1.5s ease, transform 0.5s ease;
+      opacity: 1;
+      transition: opacity 1.5s ease;
       pointer-events: none;
     }
   </style>
@@ -76,7 +76,6 @@
     <div id="hero">
       <h1>Adryan<br/></h1>
     </div>
-    <div id="compliment"></div>
   </div>
 
   <script type="module">
@@ -109,25 +108,29 @@
       '#99ccff', '#ff9966', '#66ff99', '#ff6699', '#9966ff'
     ];
 
-    const complimentElement = document.getElementById('compliment');
     let index = 0; // Índice do elogio atual
     let intervalId = null; // ID do intervalo para verificar se já está ativo
 
     function showCompliment() {
+      const complimentElement = document.createElement('div');
+      complimentElement.classList.add('compliment');
+      
       const randomCompliment = compliments[index];
       const x = Math.random() * (window.innerWidth - 100);
       const y = Math.random() * (window.innerHeight - 50);
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       complimentElement.textContent = randomCompliment;
-      complimentElement.style.opacity = 1; 
       complimentElement.style.color = randomColor;
       complimentElement.style.left = `${x}px`;
       complimentElement.style.top = `${y}px`;
 
-      // Deixa o elogio desaparecer após o tempo configurado
+      document.getElementById('app').appendChild(complimentElement);
+
+      // Remover o elogio depois do tempo de exibição
       setTimeout(() => {
-        complimentElement.style.opacity = 0;
+        complimentElement.style.opacity = 0; // Iniciar o desaparecimento
+        setTimeout(() => complimentElement.remove(), 1500); // Remover do DOM após a transição
       }, 2000); 
 
       index = (index + 1) % compliments.length;
@@ -142,7 +145,6 @@
     function stopCompliments() {
       clearInterval(intervalId);
       intervalId = null; // Resetar o ID do intervalo para permitir reinício
-      complimentElement.style.opacity = 0; // Tornar invisível imediatamente quando soltar
     }
 
     document.addEventListener('mousedown', startCompliments);
