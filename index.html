@@ -110,8 +110,15 @@
 
     let index = 0; // Índice do elogio atual
     let intervalId = null; // ID do intervalo para verificar se já está ativo
+    let activeCompliments = []; // Armazena os elogios ativos
+    const maxCompliments = 5; // Limite de elogios ativos na tela
 
     function showCompliment() {
+      if (activeCompliments.length >= maxCompliments) {
+        // Se o limite de elogios ativos for alcançado, não exibe mais até que um desapareça
+        return;
+      }
+
       const complimentElement = document.createElement('div');
       complimentElement.classList.add('compliment');
       
@@ -126,12 +133,16 @@
       complimentElement.style.top = `${y}px`;
 
       document.getElementById('app').appendChild(complimentElement);
+      activeCompliments.push(complimentElement);
 
       // Remover o elogio depois do tempo de exibição
       setTimeout(() => {
         complimentElement.style.opacity = 0; // Iniciar o desaparecimento
-        setTimeout(() => complimentElement.remove(), 1500); // Remover do DOM após a transição
-      }, 2000); 
+        setTimeout(() => {
+          complimentElement.remove(); // Remover do DOM após a transição
+          activeCompliments.shift(); // Remover da lista de elogios ativos
+        }, 1500);
+      }, 2000);
 
       index = (index + 1) % compliments.length;
     }
