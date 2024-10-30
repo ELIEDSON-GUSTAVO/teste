@@ -123,9 +123,11 @@
       complimentElement.classList.add('compliment');
       
       const randomCompliment = compliments[index];
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+      // Limitar a posição dentro da área visível da tela
+      const x = Math.random() * (window.innerWidth - 200) + 50; // Limita para evitar as bordas
+      const y = Math.random() * (window.innerHeight - 200) + 50;
 
       complimentElement.textContent = randomCompliment;
       complimentElement.style.color = randomColor;
