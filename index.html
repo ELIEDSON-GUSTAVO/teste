@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PARA ADRYAN</title>
+  <title>🍓</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" href="PSX_20240505_135018.jpg" type="image/jpg">
   
@@ -65,8 +65,8 @@
       position: absolute;
       font-size: 24px;
       font-weight: bold;
-      opacity: 0.8;
-      transition: opacity 2s ease, transform 0.5s ease;
+      opacity: 0;
+      transition: opacity 1.5s ease, transform 0.5s ease;
       pointer-events: none;
     }
   </style>
@@ -120,11 +120,12 @@
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       complimentElement.textContent = randomCompliment;
-      complimentElement.style.opacity = 0.8; 
+      complimentElement.style.opacity = 1; 
       complimentElement.style.color = randomColor;
       complimentElement.style.left = `${x}px`;
       complimentElement.style.top = `${y}px`;
 
+      // Deixa o elogio desaparecer após o tempo configurado
       setTimeout(() => {
         complimentElement.style.opacity = 0;
       }, 2000); 
@@ -134,14 +135,14 @@
 
     function startCompliments() {
       if (!intervalId) { // Iniciar o intervalo apenas se não houver um ativo
-        intervalId = setInterval(showCompliment, 900);
+        intervalId = setInterval(showCompliment, 700);
       }
     }
 
     function stopCompliments() {
       clearInterval(intervalId);
       intervalId = null; // Resetar o ID do intervalo para permitir reinício
-      complimentElement.style.opacity = 0;
+      complimentElement.style.opacity = 0; // Tornar invisível imediatamente quando soltar
     }
 
     document.addEventListener('mousedown', startCompliments);
